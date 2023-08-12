@@ -17,6 +17,12 @@ public class RandomTransition : MonoBehaviour
 
     [SerializeField] private int view = 0;
 
+    [SerializeField] private Player1Movement player1Movement;
+    [SerializeField] private Player2Movement player2Movement;
+
+    [SerializeField] private List<Movement3D> movement3Ds;
+    [SerializeField] private List<GameInputs> gameInputs;
+
     // Update is called once per frame
     void Update()
     {
@@ -71,17 +77,40 @@ public class RandomTransition : MonoBehaviour
     {
         cameraHoolder.DORotate(new Vector3(45, 0, 0), 2).OnComplete(() => cam.orthographic = true);
         multiple.NewOffset(0, 8, 0);
+        ToggleMovement3D(false);
+        ToggleMovementCenital(true);
     }
-
-
     public void TransitionGameFIFA()
     {
         cameraHoolder.DORotate(new Vector3(0, 0, 0), 2).OnComplete(() => cam.orthographic = false);
         multiple.NewOffset(0, 8, -10);
+        ToggleMovementCenital(false);
+        ToggleMovement3D(true);
     }
     public void TransitionFrontal()
     {
         cameraHoolder.DORotate(new Vector3(-45, 0, 0), 2).OnComplete(() => cam.orthographic = true);
         multiple.NewOffset(0, 1, -40);
+        ToggleMovementCenital(false);
+        ToggleMovement3D(false);
+    }
+
+
+    private void ToggleMovement3D(bool state)
+    {
+        for(int i = 0; i < 1; i++)
+        {
+            movement3Ds[i].enabled = state;
+        }
+        for (int i = 0; i < 1; i++)
+        {
+            gameInputs[i].enabled = state;
+        }
+    }
+
+    public void ToggleMovementCenital(bool state)
+    {
+        player1Movement.enabled = state;
+        player2Movement.enabled = state;
     }
 }
