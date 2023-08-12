@@ -70,4 +70,9 @@ public class MultipleTargetCamera : MonoBehaviour
 
         return bounds.center;
     }
+    
+    public void NewOffset(int x, int y, int z)
+    {
+        offset = new Vector3(x,y,z);
+    }
 }
