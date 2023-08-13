@@ -23,6 +23,14 @@ public class RandomTransition : MonoBehaviour
     [SerializeField] private List<Movement3D> movement3Ds;
     [SerializeField] private List<GameInputs> gameInputs;
 
+    [SerializeField] private Transform player1;
+    [SerializeField] private Transform player2;
+    [SerializeField] private Transform balon;
+
+    [SerializeField] private Rigidbody player1Rb;
+    [SerializeField] private Rigidbody player2Rb;
+    [SerializeField] private Rigidbody balonRb;
+
     // Update is called once per frame
     void Update()
     {
@@ -93,24 +101,36 @@ public class RandomTransition : MonoBehaviour
         multiple.NewOffset(0, 1, -40);
         ToggleMovementCenital(false);
         ToggleMovement3D(false);
+        player1.position = new Vector3(player1.position.x, player1.position.y, 0);
+        player2.position = new Vector3(player2.position.x, player2.position.y, 0);
+        balon.position = new Vector3(balon.position.x, balon.position.y, 0);
+        player1Rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ |
+            RigidbodyConstraints.FreezePositionZ;
+        player2Rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ |
+            RigidbodyConstraints.FreezePositionZ;
+        balonRb.constraints = RigidbodyConstraints.FreezePositionZ;
     }
 
 
     private void ToggleMovement3D(bool state)
     {
-        for(int i = 0; i < 1; i++)
+        for (int i = 0; i <= 1; i++)
         {
             movement3Ds[i].enabled = state;
         }
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i <= 1; i++)
         {
             gameInputs[i].enabled = state;
         }
+        player1Rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+        player2Rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
     }
 
     public void ToggleMovementCenital(bool state)
     {
         player1Movement.enabled = state;
-        player2Movement.enabled = state;
+        player2Movement.enabled = state;        
+        player1Rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+        player2Rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
     }
 }
