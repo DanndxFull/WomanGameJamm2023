@@ -42,6 +42,7 @@ public class RandomTransition : MonoBehaviour
         playTime += Time.deltaTime;
         if (currentTime > timeToChange)
         {
+            balonRb.velocity = Vector3.zero;
             switch (view)
             {
                 case 0:
@@ -93,6 +94,9 @@ public class RandomTransition : MonoBehaviour
         ToggleMovement3D(false);
         ToggleMovementFrontal(false);
         ToggleMovementCenital(true);
+        player1.position = new Vector3(player1.position.x, 1, player1.position.z);
+        player2.position = new Vector3(player2.position.x, 1, player2.position.z);
+        balon.position = new Vector3(balon.position.x,1, balon.position.z);
     }
     public void TransitionGameFIFA()
     {
@@ -157,8 +161,17 @@ public class RandomTransition : MonoBehaviour
     }
 
     private IEnumerator animacionCambio(){
+        player1Rb.velocity = Vector3.zero;
+        player2Rb.velocity = Vector3.zero;
+        balonRb.velocity = Vector3.zero;
+        player1Rb.isKinematic = true;
+        player2Rb.isKinematic = true;
+        balonRb.isKinematic = true;
         ObjetoCam.SetActive(true);
         yield return new WaitForSeconds(2);
         ObjetoCam.SetActive(false);
+        player1Rb.isKinematic = false;
+        player2Rb.isKinematic = false;
+        balonRb.isKinematic = false;
     }
 }
