@@ -24,9 +24,8 @@ private void Awake(){
     volumeMaster.onValueChanged.AddListener(ChangeVolumeMaster);
 }
 public void SetMute(){
-    mixer.GetFloat("volMaster", out lastVolume);
     if(mute.isOn){
-        mixer.SetFloat("volMaster", out lastVolume);
+        mixer.GetFloat("volMaster", out lastVolume);
         mixer.SetFloat("volMaster", -80);
     }else{
         mixer.SetFloat("volMaster", lastVolume);
@@ -50,5 +49,8 @@ public void ChangeVolumeFX(float v){
 public void PlaySoundButton()
 {
 fxSource.PlayOneShot(clickSound);
+}
+public void ExitGame(){
+    Application.Quit();
 }
 }
