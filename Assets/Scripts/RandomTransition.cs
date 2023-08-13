@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using TMPro;
 
 
 public class RandomTransition : MonoBehaviour
@@ -35,11 +36,15 @@ public class RandomTransition : MonoBehaviour
     [SerializeField] private Rigidbody balonRb;
     [SerializeField] private GameObject ObjetoCam;
 
+    [SerializeField] private TextMeshProUGUI timer;
+    [SerializeField] private GameObject panelFinJuego;
+    [SerializeField] private MeshRenderer mesh;
     // Update is called once per frame
     void Update()
     {
         currentTime += Time.deltaTime;
         playTime += Time.deltaTime;
+        timer.text = "Time:"+(((int)playTime)).ToString();
         if (currentTime > timeToChange)
         {
             balonRb.velocity = Vector3.zero;
@@ -84,6 +89,11 @@ public class RandomTransition : MonoBehaviour
         {
             timeToChange = 6;
         }
+        if (playTime > 120)
+        {
+            Time.timeScale = 0;
+            panelFinJuego.SetActive(true);
+        }
     }
 
     public void TransitionCenital()
@@ -94,6 +104,7 @@ public class RandomTransition : MonoBehaviour
         ToggleMovement3D(false);
         ToggleMovementFrontal(false);
         ToggleMovementCenital(true);
+        mesh.enabled = true;
         player1.position = new Vector3(player1.position.x, 1, player1.position.z);
         player2.position = new Vector3(player2.position.x, 1, player2.position.z);
         balon.position = new Vector3(balon.position.x,1, balon.position.z);
@@ -106,6 +117,7 @@ public class RandomTransition : MonoBehaviour
         ToggleMovementCenital(false);
         ToggleMovementFrontal(false);
         ToggleMovement3D(true);
+        mesh.enabled = true;
     }
     public void TransitionFrontal()
     {
@@ -117,7 +129,8 @@ public class RandomTransition : MonoBehaviour
         ToggleMovementFrontal(true);
         player1.position = new Vector3(player1.position.x, player1.position.y, 0);
         player2.position = new Vector3(player2.position.x, player2.position.y, 0);
-        balon.position = new Vector3(balon.position.x, balon.position.y, 0);        
+        balon.position = new Vector3(balon.position.x, balon.position.y, 0);
+        mesh.enabled = false;
     }
 
 

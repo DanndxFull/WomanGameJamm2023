@@ -9,12 +9,6 @@ using TMPro;
 
 public class Goal : MonoBehaviour
 {
-    //variables goles
-    public int golesIZQ = 0;
-    public int golesDER = 0;
-
-    [SerializeField] private TextMeshProUGUI golesTextoIZQ, golesTextoDER;
-
 
     public Transform player1;
     public Transform player2;
@@ -22,6 +16,7 @@ public class Goal : MonoBehaviour
     [SerializeField] private Canshinna cancha;
     [SerializeField] private GameObject imageGool;
     [SerializeField] private RandomTransition random;
+    [SerializeField] private GolCounter golCounter;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -29,14 +24,11 @@ public class Goal : MonoBehaviour
         {
             if(cancha == Canshinna.canchaIZQ)
             {
-                golesIZQ++;
-                golesTextoIZQ.text = golesIZQ.ToString();
-
+                golCounter.GOL(1);
             }
             if (cancha == Canshinna.canchaDER)
             {
-                golesDER++;
-                golesTextoDER.text = golesDER.ToString();
+                golCounter.GOL(2);                
             }
             StartCoroutine(ResetPlayers());
         }
