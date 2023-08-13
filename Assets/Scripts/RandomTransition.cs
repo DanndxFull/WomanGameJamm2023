@@ -33,6 +33,7 @@ public class RandomTransition : MonoBehaviour
     [SerializeField] private Rigidbody player1Rb;
     [SerializeField] private Rigidbody player2Rb;
     [SerializeField] private Rigidbody balonRb;
+    [SerializeField] private GameObject ObjetoCam;
 
     // Update is called once per frame
     void Update()
@@ -86,6 +87,7 @@ public class RandomTransition : MonoBehaviour
 
     public void TransitionCenital()
     {
+        StartCoroutine(animacionCambio());   
         cameraHoolder.DORotate(new Vector3(45, 0, 0), 2).OnComplete(() => cam.orthographic = true);
         multiple.NewOffset(0, 8, 0);
         ToggleMovement3D(false);
@@ -94,6 +96,7 @@ public class RandomTransition : MonoBehaviour
     }
     public void TransitionGameFIFA()
     {
+        StartCoroutine(animacionCambio());
         cameraHoolder.DORotate(new Vector3(0, 0, 0), 2).OnComplete(() => cam.orthographic = false);
         multiple.NewOffset(0, 8, -10);
         ToggleMovementCenital(false);
@@ -102,6 +105,7 @@ public class RandomTransition : MonoBehaviour
     }
     public void TransitionFrontal()
     {
+        StartCoroutine(animacionCambio());
         cameraHoolder.DORotate(new Vector3(-45, 0, 0), 2).OnComplete(() => cam.orthographic = true);
         multiple.NewOffset(0, 1, -40);
         ToggleMovementCenital(false);
@@ -150,5 +154,11 @@ public class RandomTransition : MonoBehaviour
         player2Rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ |
             RigidbodyConstraints.FreezePositionZ;
         balonRb.constraints = RigidbodyConstraints.FreezePositionZ;
+    }
+
+    private IEnumerator animacionCambio(){
+        ObjetoCam.SetActive(true);
+        yield return new WaitForSeconds(2);
+        ObjetoCam.SetActive(false);
     }
 }
