@@ -9,6 +9,7 @@ public class RandomTransition : MonoBehaviour
     [SerializeField] private float timeToChange;
     private float currentTime;
     private float playTime;
+    [SerializeField] private AudioSource transicion;
 
     [SerializeField] private Transform cameraHoolder;
     [SerializeField] private Camera cam;
@@ -22,7 +23,7 @@ public class RandomTransition : MonoBehaviour
 
     [SerializeField] private List<Movement3D> movement3Ds;
     [SerializeField] private List<GameInputs> gameInputs;
-    
+
     [SerializeField] private List<jugador1> jugador1s;
     [SerializeField] private List<Controles1> controles1s;
 
@@ -42,6 +43,7 @@ public class RandomTransition : MonoBehaviour
         playTime += Time.deltaTime;
         if (currentTime > timeToChange)
         {
+            transicion.Play();
             switch (view)
             {
                 case 0:
@@ -87,7 +89,7 @@ public class RandomTransition : MonoBehaviour
 
     public void TransitionCenital()
     {
-        StartCoroutine(animacionCambio());   
+        StartCoroutine(animacionCambio());
         cameraHoolder.DORotate(new Vector3(45, 0, 0), 2).OnComplete(() => cam.orthographic = true);
         multiple.NewOffset(0, 8, 0);
         ToggleMovement3D(false);
@@ -113,7 +115,7 @@ public class RandomTransition : MonoBehaviour
         ToggleMovementFrontal(true);
         player1.position = new Vector3(player1.position.x, player1.position.y, 0);
         player2.position = new Vector3(player2.position.x, player2.position.y, 0);
-        balon.position = new Vector3(balon.position.x, balon.position.y, 0);        
+        balon.position = new Vector3(balon.position.x, balon.position.y, 0);
     }
 
 
@@ -134,7 +136,7 @@ public class RandomTransition : MonoBehaviour
     public void ToggleMovementCenital(bool state)
     {
         player1Movement.enabled = state;
-        player2Movement.enabled = state;        
+        player2Movement.enabled = state;
         player1Rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
         player2Rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
     }
@@ -156,7 +158,8 @@ public class RandomTransition : MonoBehaviour
         balonRb.constraints = RigidbodyConstraints.FreezePositionZ;
     }
 
-    private IEnumerator animacionCambio(){
+    private IEnumerator animacionCambio()
+    {
         ObjetoCam.SetActive(true);
         yield return new WaitForSeconds(2);
         ObjetoCam.SetActive(false);
