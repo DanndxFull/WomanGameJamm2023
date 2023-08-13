@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-using TMPro;
 
 
 public class RandomTransition : MonoBehaviour
@@ -10,6 +9,7 @@ public class RandomTransition : MonoBehaviour
     [SerializeField] private float timeToChange;
     private float currentTime;
     private float playTime;
+    [SerializeField] private AudioSource transicion;
 
     [SerializeField] private Transform cameraHoolder;
     [SerializeField] private Camera cam;
@@ -23,7 +23,7 @@ public class RandomTransition : MonoBehaviour
 
     [SerializeField] private List<Movement3D> movement3Ds;
     [SerializeField] private List<GameInputs> gameInputs;
-    
+
     [SerializeField] private List<jugador1> jugador1s;
     [SerializeField] private List<Controles1> controles1s;
 
@@ -36,18 +36,14 @@ public class RandomTransition : MonoBehaviour
     [SerializeField] private Rigidbody balonRb;
     [SerializeField] private GameObject ObjetoCam;
 
-    [SerializeField] private TextMeshProUGUI timer;
-    [SerializeField] private GameObject panelFinJuego;
-    [SerializeField] private MeshRenderer mesh;
     // Update is called once per frame
     void Update()
     {
         currentTime += Time.deltaTime;
         playTime += Time.deltaTime;
-        timer.text = "Time:"+(((int)playTime)).ToString();
         if (currentTime > timeToChange)
         {
-            balonRb.velocity = Vector3.zero;
+            transicion.Play();
             switch (view)
             {
                 case 0:
@@ -89,25 +85,16 @@ public class RandomTransition : MonoBehaviour
         {
             timeToChange = 6;
         }
-        if (playTime > 120)
-        {
-            Time.timeScale = 0;
-            panelFinJuego.SetActive(true);
-        }
     }
 
     public void TransitionCenital()
     {
-        StartCoroutine(animacionCambio());   
+        StartCoroutine(animacionCambio());
         cameraHoolder.DORotate(new Vector3(45, 0, 0), 2).OnComplete(() => cam.orthographic = true);
         multiple.NewOffset(0, 8, 0);
         ToggleMovement3D(false);
         ToggleMovementFrontal(false);
         ToggleMovementCenital(true);
-        mesh.enabled = true;
-        player1.position = new Vector3(player1.position.x, 1, player1.position.z);
-        player2.position = new Vector3(player2.position.x, 1, player2.position.z);
-        balon.position = new Vector3(balon.position.x,1, balon.position.z);
     }
     public void TransitionGameFIFA()
     {
@@ -117,7 +104,6 @@ public class RandomTransition : MonoBehaviour
         ToggleMovementCenital(false);
         ToggleMovementFrontal(false);
         ToggleMovement3D(true);
-        mesh.enabled = true;
     }
     public void TransitionFrontal()
     {
@@ -130,7 +116,6 @@ public class RandomTransition : MonoBehaviour
         player1.position = new Vector3(player1.position.x, player1.position.y, 0);
         player2.position = new Vector3(player2.position.x, player2.position.y, 0);
         balon.position = new Vector3(balon.position.x, balon.position.y, 0);
-        mesh.enabled = false;
     }
 
 
@@ -151,7 +136,7 @@ public class RandomTransition : MonoBehaviour
     public void ToggleMovementCenital(bool state)
     {
         player1Movement.enabled = state;
-        player2Movement.enabled = state;        
+        player2Movement.enabled = state;
         player1Rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
         player2Rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
     }
@@ -173,18 +158,10 @@ public class RandomTransition : MonoBehaviour
         balonRb.constraints = RigidbodyConstraints.FreezePositionZ;
     }
 
-    private IEnumerator animacionCambio(){
-        player1Rb.velocity = Vector3.zero;
-        player2Rb.velocity = Vector3.zero;
-        balonRb.velocity = Vector3.zero;
-        player1Rb.isKinematic = true;
-        player2Rb.isKinematic = true;
-        balonRb.isKinematic = true;
+    private IEnumerator animacionCambio()
+    {
         ObjetoCam.SetActive(true);
         yield return new WaitForSeconds(2);
         ObjetoCam.SetActive(false);
-        player1Rb.isKinematic = false;
-        player2Rb.isKinematic = false;
-        balonRb.isKinematic = false;
     }
 }
