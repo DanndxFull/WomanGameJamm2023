@@ -24,7 +24,8 @@ public class jugador1 : MonoBehaviour
         float moveHorizontal = controles.GetHorizontalInput();
 
         Vector2 movement = new Vector2(moveHorizontal, 0);
-        rb.velocity = movement * movementSpeed;
+        Vector3 moveVector = transform.TransformDirection(movement) * movementSpeed;
+        rb.velocity = new Vector3(moveVector.x, rb.velocity.y, moveVector.z);
         if (controles.GetInputJump())
         {
             Jump();

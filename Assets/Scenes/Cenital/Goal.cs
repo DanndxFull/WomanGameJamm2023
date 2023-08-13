@@ -21,20 +21,20 @@ public class Goal : MonoBehaviour
     public Transform ball;
     [SerializeField] private Canshinna cancha;
     [SerializeField] private GameObject imageGool;
+    [SerializeField] private RandomTransition random;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.CompareTag("fuchi"))
         {
             if(cancha == Canshinna.canchaIZQ)
             {
-                Debug.Log("fucuiado  -   GOOOOOOOAL IZQ");
                 golesIZQ++;
                 golesTextoIZQ.text = golesIZQ.ToString();
 
             }
             if (cancha == Canshinna.canchaDER)
             {
-                Debug.Log("fucuiado  -   GOOOOOOOAL DER");
                 golesDER++;
                 golesTextoDER.text = golesDER.ToString();
             }
@@ -52,8 +52,10 @@ public class Goal : MonoBehaviour
         player1.GetComponent<Rigidbody>().velocity = Vector3.zero;
         player2.GetComponent<Rigidbody>().velocity = Vector3.zero;
         ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        random.enabled = false;
         yield return new WaitForSeconds(1);
         imageGool.SetActive(false);
+        random.enabled = true;
     }
 
 }
