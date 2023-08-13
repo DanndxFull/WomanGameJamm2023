@@ -45,6 +45,6 @@ public class Player1Movement : MonoBehaviour
 
     void Move(Vector3 direction)
     {
-        rb.AddForce(direction.normalized * speed, ForceMode.Acceleration);
+        rb.velocity = direction.normalized * speed;
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
  enum Canshinna{
     canchaIZQ,
     canchaDER
@@ -8,10 +9,18 @@ using UnityEngine;
 
 public class Goal : MonoBehaviour
 {
+    //variables goles
+    public int golesIZQ = 0;
+    public int golesDER = 0;
+
+    [SerializeField] private TextMeshProUGUI golesTextoIZQ, golesTextoDER;
+
+
     public Transform player1;
     public Transform player2;
     public Transform ball;
-    [SerializeField] Canshinna cancha;
+    [SerializeField] private Canshinna cancha;
+    [SerializeField] private GameObject imageGool;
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.CompareTag("fuchi"))
@@ -19,15 +28,32 @@ public class Goal : MonoBehaviour
             if(cancha == Canshinna.canchaIZQ)
             {
                 Debug.Log("fucuiado  -   GOOOOOOOAL IZQ");
+                golesIZQ++;
+                golesTextoIZQ.text = golesIZQ.ToString();
+
             }
             if (cancha == Canshinna.canchaDER)
             {
                 Debug.Log("fucuiado  -   GOOOOOOOAL DER");
+                golesDER++;
+                golesTextoDER.text = golesDER.ToString();
             }
-            player1.position = new Vector3(-9, 2, 0);
-            player2.position = new Vector3(9, 2, 0);
-            ball.position = new Vector3(0, 0, 0);
+            StartCoroutine(ResetPlayers());
         }
+    }
+
+
+    IEnumerator ResetPlayers()
+    {
+        imageGool.SetActive(true);
+        player1.position = new Vector3(-4, 0.5f, 0);
+        player2.position = new Vector3(4, 0.5f, 0);
+        ball.position = new Vector3(0, 0.5f, 0);
+        player1.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        player2.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        yield return new WaitForSeconds(1);
+        imageGool.SetActive(false);
     }
 
 }
