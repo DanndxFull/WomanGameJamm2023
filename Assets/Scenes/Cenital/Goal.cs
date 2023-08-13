@@ -17,12 +17,14 @@ public class Goal : MonoBehaviour
     [SerializeField] private GameObject imageGool;
     [SerializeField] private RandomTransition random;
     [SerializeField] private GolCounter golCounter;
+    [SerializeField] private AudioSource audioGoal;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.CompareTag("fuchi"))
         {
-            if(cancha == Canshinna.canchaIZQ)
+            audioGoal.Play();
+            if (cancha == Canshinna.canchaIZQ)
             {
                 golCounter.GOL(1);
             }
